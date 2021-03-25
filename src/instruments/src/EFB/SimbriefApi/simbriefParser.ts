@@ -131,6 +131,10 @@ function simbriefDataParser(simbriefJson: any): ISimbriefData {
             taxiIn: times.taxi_in,
             taxiOut: times.taxi_out,
         },
+        weather: {
+            avgWindDir: general.avg_wind_dir,
+            avgWindSpeed: general.avg_wind_spd,
+        },
         text: text.plan_html,
     };
 }

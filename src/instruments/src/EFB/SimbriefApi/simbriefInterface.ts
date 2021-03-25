@@ -32,6 +32,7 @@ export interface ISimbriefData {
     units: string,
     alternate: IAlternate,
     times: ITimes,
+    weather: IWeather,
     files: Files,
     text: string,
 }
@@ -97,6 +98,11 @@ interface ITimes {
     schedTimeEnroute: number,
     taxiIn: number,
     taxiOut: number,
+}
+
+interface IWeather {
+    avgWindDir: number,
+    avgWindSpeed: number,
 }
 
 interface Files {
@@ -175,6 +181,10 @@ export const EmptyISimbriefData = {
         schedTimeEnroute: 0,
         taxiIn: 0,
         taxiOut: 0,
+    },
+    weather: {
+        avgWindDir: 0,
+        avgWindSpeed: 0,
     },
     text: '',
 };

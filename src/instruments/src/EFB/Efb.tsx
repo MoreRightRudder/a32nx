@@ -40,15 +40,20 @@ type TimeState = {
     timeSinceStart: string,
 }
 
-type SimbriefData = {
+export type SimbriefData = {
     departingAirport: string,
     departingIata: string,
     arrivingAirport: string,
     arrivingIata: string,
     flightDistance: string,
     flightETAInSeconds: string,
+    cruiseAltitude: number,
     weights: IWeights,
     fuels: IFuel,
+    weather: {
+        avgWindDir: string,
+        avgWindSpeed: string,
+    }
     units: string,
     altIcao: string,
     altIata: string,
@@ -78,6 +83,7 @@ const emptySimbriefData: SimbriefData = {
     flightDistance: '---NM',
     route: '---------------------',
     flightETAInSeconds: 'N/A',
+    cruiseAltitude: 0,
     weights: {
         cargo: 0,
         estLandingWeight: 0,
@@ -103,6 +109,10 @@ const emptySimbriefData: SimbriefData = {
         planTakeOff: 0,
         reserve: 0,
         taxi: 0,
+    },
+    weather: {
+        avgWindDir: '---',
+        avgWindSpeed: '---',
     },
     units: 'kgs',
     altIcao: '----',
@@ -147,6 +157,7 @@ const Efb = () => {
             aircraftReg: returnedSimbriefData.aircraftReg,
             flightDistance: returnedSimbriefData.distance,
             flightETAInSeconds: returnedSimbriefData.flightETAInSeconds,
+            cruiseAltitude: returnedSimbriefData.cruiseAltitude,
             route: returnedSimbriefData.route,
             weights: {
                 cargo: returnedSimbriefData.weights.cargo,
@@ -174,6 +185,10 @@ const Efb = () => {
                 reserve: returnedSimbriefData.fuel.reserve,
                 taxi: returnedSimbriefData.fuel.taxi,
             },
+            weather: {
+                avgWindDir: returnedSimbriefData.weather.avgWindDir.toString(),
+                avgWindSpeed: returnedSimbriefData.weather.avgWindSpeed.toString(),
+            },
             units: returnedSimbriefData.units,
             altIcao: returnedSimbriefData.alternate.icao,
             altIata: returnedSimbriefData.alternate.iata,
@@ -198,18 +213,6 @@ const Efb = () => {
     };
 
     const currentPage = () => {
-        let schedInParsed = '--:--';
-        let schedOutParsed = '--:--';
-
-        if (simbriefData.schedIn !== '--:--') {
-            const sta = new Date(parseInt(simbriefData.schedIn) * 1000);
-            schedInParsed = `${sta.getUTCHours().toString().padStart(2, '0')}:${sta.getUTCMinutes().toString().padStart(2, '0')}z`;
-        }
-        if (simbriefData.schedOut !== '--:--') {
-            const std = new Date(parseInt(simbriefData.schedOut) * 1000);
-            schedOutParsed = `${std.getUTCHours().toString().padStart(2, '0')}:${std.getUTCMinutes().toString().padStart(2, '0')}z`;
-        }
-
         switch (currentPageIndex) {
         case 1:
             return (
@@ -252,22 +255,8 @@ const Efb = () => {
         default:
             return (
                 <Dashboard
+                    simbriefData={simbriefData}
                     fetchSimbrief={fetchSimbriefData}
-                    airline={simbriefData.airline}
-                    flightNum={simbriefData.flightNum}
-                    aircraftReg={simbriefData.aircraftReg}
-                    departingAirport={simbriefData.departingAirport}
-                    arrivingAirport={simbriefData.arrivingAirport}
-                    flightDistance={simbriefData.flightDistance}
-                    flightETAInSeconds={simbriefData.flightETAInSeconds}
-                    timeSinceStart={timeState.timeSinceStart}
-                    route={simbriefData.route}
-                    depIata={simbriefData.departingIata}
-                    arrIata={simbriefData.arrivingIata}
-                    schedIn={schedInParsed}
-                    schedOut={schedOutParsed}
-                    altIcao={simbriefData.altIcao}
-                    costInd={simbriefData.costInd}
                 />
             );
         }

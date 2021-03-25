@@ -22,24 +22,11 @@ import FlightWidget from './Widgets/FlightWidget';
 // import WeatherWidget from './Widgets/WeatherWidget';
 import { useSimVar } from '../../Common/simVars';
 import WeatherWidget from './Widgets/WeatherWidget';
+import { SimbriefData } from '../Efb';
 
 type DashboardProps = {
-    airline: string,
-    flightNum: string,
-    aircraftReg: string,
-    departingAirport: string,
-    depIata: string,
-    arrivingAirport: string,
-    arrIata: string,
-    flightDistance: string,
-    flightETAInSeconds: string,
-    timeSinceStart: string,
-    schedOut: string,
-    schedIn: string,
+    simbriefData: SimbriefData,
     fetchSimbrief: Function,
-    route: string,
-    altIcao: string,
-    costInd: string
 }
 
 const Dashboard: React.FC<DashboardProps> = (props) => {
@@ -80,33 +67,19 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
             <h1 className="text-3xl pt-6 text-white">Dashboard</h1>
             <div className="flex w-full mt-6 h-efb">
                 <FlightWidget
-                    airline={props.airline}
-                    flightNum={props.flightNum}
-                    aircraftReg={props.aircraftReg}
-                    dep={props.departingAirport}
-                    depIata={props.depIata}
-                    arrIata={props.arrIata}
-                    arr={props.arrivingAirport}
-                    route={props.route}
-                    distance={props.flightDistance}
-                    eta={calculateFlightTime(props.flightETAInSeconds)}
-                    timeSinceStart={props.timeSinceStart}
-                    sta={props.schedIn}
-                    std={props.schedOut}
+                    simbriefData={props.simbriefData}
                     fetchSimbrief={props.fetchSimbrief}
-                    altIcao={props.altIcao}
-                    costInd={props.costInd}
                 />
 
                 <div className="flex flex-col w-3/5">
                     <div className="h-2/5 bg-navy-lighter rounded-2xl ml-3 mb-3 shadow-lg p-6">
                         <div className="h-full flex items-center">
                             <div className="w-1/2">
-                                <WeatherWidget name="origin" editIcao="yes" cardRight={false} icao={props.departingAirport} />
+                                <WeatherWidget name="origin" editIcao="yes" cardRight={false} icao={props.simbriefData.departingAirport} />
                             </div>
                             <div className="border border-gray-500 rounded-full h-48" />
                             <div className="w-1/2">
-                                <WeatherWidget name="origin" editIcao="yes" cardRight={true} icao={props.arrivingAirport} />
+                                <WeatherWidget name="origin" editIcao="yes" cardRight icao={props.simbriefData.arrivingAirport} />
                             </div>
                         </div>
                     </div>

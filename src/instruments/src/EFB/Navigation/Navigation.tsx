@@ -4,6 +4,7 @@ import { IconArrowsMaximize, IconArrowsMinimize, IconLock, IconMoon, IconSun } f
 import useInterval from '../../Common/useInterval';
 import NavigraphClient, {
     AirportInfo,
+    emptyNavigraphCharts,
     NavigraphAirportCharts,
     NavigraphChart,
     NavigraphContext,
@@ -78,7 +79,9 @@ const AuthUi = () => {
             <div className="flex flex-col">
                 <p className="flex text-white items-center justify-center text-2xl mb-6">
                     <IconLock className="mr-2" size={24} stroke={1.5} strokeLinejoin="miter" />
-                    Authenticate with <img src={navigraphLogo} className="h-10 ml-3" />
+                    Authenticate with
+                    {' '}
+                    <img src={navigraphLogo} className="h-10 ml-3" alt="Navigraph Logo" />
                 </p>
                 {hasQr
                     ? (
@@ -266,7 +269,14 @@ const ChartsUi = (props: ChartsUiProps) => {
         if (props.enableNavigraph) {
             navigraph.getAirportInfo(props.icao).then((r) => setAirportInfo(r));
         }
-    }, [props.charts]);
+    }, [props.icao]);
+
+    useEffect(() => {
+        if (props.icao.length <= 3) {
+            setAirportInfo({ name: '' });
+            props.setCharts(emptyNavigraphCharts);
+        }
+    }, [props.icao]);
 
     useEffect(() => {
         if (props.enableNavigraph) {
@@ -366,6 +376,7 @@ const ChartsUi = (props: ChartsUiProps) => {
                                             <span
                                                 className="py-2 px-2 text-lg rounded-md select-none"
                                                 onClick={() => setSelectedTab(organizedChart)}
+                                                key={organizedChart.name}
                                             >
                                                 {organizedChart.name}
                                             </span>

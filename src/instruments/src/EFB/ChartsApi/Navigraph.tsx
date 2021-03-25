@@ -46,6 +46,14 @@ export type AuthType = {
     interval: number,
 }
 
+export const emptyNavigraphCharts = {
+    arrival: [],
+    approach: [],
+    airport: [],
+    departure: [],
+    reference: [],
+};
+
 function formatFormBody(body: Object) {
     return Object.keys(body).map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(body[key])}`).join('&');
 }
@@ -215,13 +223,7 @@ export default class NavigraphClient {
             }
         }
 
-        return {
-            airport: [],
-            approach: [],
-            arrival: [],
-            departure: [],
-            reference: [],
-        };
+        return emptyNavigraphCharts;
     }
 
     public async getAirportInfo(icao: string): Promise<AirportInfo> {
@@ -237,7 +239,7 @@ export default class NavigraphClient {
             }
         }
 
-        return { name: '' };
+        return { name: 'AIRPORT DOES NOT EXIST' };
     }
 
     public hasToken() {

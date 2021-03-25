@@ -21,6 +21,8 @@ import React, { useState } from 'react';
 import { Provider } from 'react-redux';
 import store from './Store';
 
+import { usePersistentProperty } from '../Common/persistence';
+
 import NavigraphClient, { NavigraphContext } from './ChartsApi/Navigraph';
 
 import { getSimbriefData, IFuel, IWeights } from './SimbriefApi';
@@ -32,10 +34,6 @@ import Ground from './Ground/Ground';
 import Company from './Company/Company';
 import Navigation from './Navigation/Navigation';
 import Settings from './Settings/Settings';
-
-type EfbProps = {
-    currentFlight: string
-};
 
 type TimeState = {
     currentTime: Date,
@@ -121,30 +119,16 @@ const emptySimbriefData: SimbriefData = {
     costInd: '--',
 };
 
-const Efb = (props: EfbProps) => {
+const Efb = () => {
     const [navigraph] = useState(() => new NavigraphClient());
     const [simbriefData, setSimbriefData] = useState<SimbriefData>(emptySimbriefData);
-
-    const fetchSimbriefUsername = (): string => {
-        const username = window.localStorage.getItem('SimbriefUsername');
-        if (username === null) {
-            return '';
-        }
-        return username;
-    };
-
-    const [simbriefUsername, setSimbriefUsername] = useState<string>(fetchSimbriefUsername());
+    const [simbriefUsername, setSimbriefUsername] = usePersistentProperty('SimbriefUsername');
     const [timeState, setTimeState] = useState<TimeState>({
         currentTime: new Date(),
         initTime: new Date(),
         timeSinceStart: '00:00',
     });
     const [currentPageIndex, setCurrentPageIndex] = useState<0 | 1 | 2 | 3 | 4 | 5 | 6>(0);
-
-    const changeSimbriefUsername = (name: string) => {
-        setSimbriefUsername(name);
-        window.localStorage.setItem('SimbriefUsername', name);
-    };
 
     const fetchSimbriefData = async () => {
         if (!simbriefUsername) {
@@ -251,7 +235,7 @@ const Efb = (props: EfbProps) => {
         case 2:
             return <Ground />;
         case 3:
-            return <Company simbriefUsername={simbriefUsername} changeSimbriefUsername={changeSimbriefUsername} />;
+            return <Company simbriefUsername={simbriefUsername} changeSimbriefUsername={setSimbriefUsername} />;
         case 4:
             return <Navigation />;
         case 5:

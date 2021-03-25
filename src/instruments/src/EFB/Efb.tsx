@@ -31,7 +31,6 @@ import ToolBar from './ToolBar/ToolBar';
 import Dashboard from './Dashboard/Dashboard';
 import Dispatch from './Dispatch/Dispatch';
 import Ground from './Ground/Ground';
-import Company from './Company/Company';
 import Navigation from './Navigation/Navigation';
 import Settings from './Settings/Settings';
 
@@ -235,7 +234,11 @@ const Efb = () => {
         case 2:
             return <Ground />;
         case 3:
-            return <Company simbriefUsername={simbriefUsername} changeSimbriefUsername={setSimbriefUsername} />;
+            return (
+                <div className="w-full h-full">
+                    <p className="text-white font-medium mt-6 ml-4 text-3xl">Inop.</p>
+                </div>
+            );
         case 4:
             return <Navigation />;
         case 5:
@@ -245,7 +248,7 @@ const Efb = () => {
                 </div>
             );
         case 6:
-            return <Settings />;
+            return <Settings simbriefUsername={simbriefUsername} setSimbriefUsername={setSimbriefUsername} />;
         default:
             return (
                 <Dashboard

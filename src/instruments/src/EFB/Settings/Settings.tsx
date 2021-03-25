@@ -22,7 +22,7 @@ import { Select, SelectGroup, SelectItem } from '../Components/Form/Select';
 import { Slider } from '../Components/Form/Slider';
 import { useSimVarSyncedPersistentProperty } from '../../Common/persistence';
 
-const PlaneSettings: React.FC = () => (
+const PlaneSettings = () => (
     <div className="bg-gray-800 opacity-40 rounded-xl px-6 py-4 shadow-lg">
         <h1 className="text-xl font-medium text-white mb-3">Realism</h1>
 
@@ -118,7 +118,7 @@ const PlaneSettings: React.FC = () => (
     </div>
 );
 
-const SoundSettings: React.FC = () => {
+const SoundSettings = () => {
     const [ptuAudible, setPtuAudible] = useSimVarSyncedPersistentProperty('L:A32NX_SOUND_PTU_AUDIBLE_COCKPIT', 'Bool', 'SOUND_PTU_AUDIBLE_COCKPIT');
     const [exteriorVolume, setExteriorVolume] = useSimVarSyncedPersistentProperty('L:A32NX_SOUND_EXTERIOR_MASTER', 'number', 'SOUND_EXTERIOR_MASTER');
     const [engineVolume, setEngineVolume] = useSimVarSyncedPersistentProperty('L:A32NX_SOUND_INTERIOR_ENGINE', 'number', 'SOUND_INTERIOR_ENGINE');
@@ -160,7 +160,7 @@ const SoundSettings: React.FC = () => {
     );
 };
 
-const FlyPadSettings: React.FC = () => {
+const FlyPadSettings = () => {
     const [brightness, setBrightness] = useSimVarSyncedPersistentProperty('L:A32NX_EFB_BRIGHTNESS', 'number', 'EFB_BRIGHTNESS');
 
     return (
@@ -173,7 +173,21 @@ const FlyPadSettings: React.FC = () => {
     );
 };
 
-const Settings: React.FC = () => (
+const IntegrationSettings = (props: {simbriefUsername, setSimbriefUsername}) => (
+    <div className="bg-gray-800 divide-y divide-gray-700 flex flex-col rounded-xl px-6 py-4 shadow-lg">
+        <div className="flex flex-row justify-between items-center">
+            <span className="text-lg text-gray-300">SimBrief</span>
+            <input
+                type="text"
+                className="w-60 bg-gray-800 text-xl text-white px-2 py-1 border-2 rounded-md border-gray-600 focus-within:outline-none focus-within:border-teal-light"
+                value={props.simbriefUsername}
+                onChange={(event) => props.setSimbriefUsername(event.target.value)}
+            />
+        </div>
+    </div>
+);
+
+const Settings = (props: {simbriefUsername, setSimbriefUsername}) => (
     <div className="w-full h-full flex flex-col">
         <div className="flex-grow m-6 rounded-xl flex flex-row">
             <div className="w-1/2 pr-3">
@@ -189,6 +203,9 @@ const Settings: React.FC = () => (
 
                 <h1 className="text-2xl text-white mt-5 mb-4">flyPad Settings</h1>
                 <FlyPadSettings />
+
+                <h1 className="text-2xl text-white mt-5 mb-4">Integration</h1>
+                <IntegrationSettings simbriefUsername={props.simbriefUsername} setSimbriefUsername={props.setSimbriefUsername} />
 
                 <h1 className="text-4xl text-center text-gray-700 pt-10">flyPadOS</h1>
                 <h1 className="text-xl text-center text-gray-600 py-2">vAlpha</h1>

@@ -168,9 +168,12 @@ export const Ground = ({
     };
 
     return (
-        <div className="wrapper mt-4 h-full flex-grow flex flex-col">
+        <div className="relative h-full flex-grow flex flex-col">
+            <div className="flex">
+                <h1 className="mt-6 text-3xl text-white">Ground</h1>
+            </div>
             <img className="airplane w-full" src={fuselage} alt="fuselage" />
-            <div className="left-72 grid grid-cols-2 control-grid absolute top-12">
+            <div className="left-72 grid grid-cols-2 control-grid absolute top-16">
 
                 <div>
                     <h1 className="text-white font-medium text-xl text-center pb-1">Pax</h1>
@@ -206,7 +209,7 @@ export const Ground = ({
                 </div>
             </div>
 
-            <div className="right-72 grid grid-cols-2 control-grid absolute top-12">
+            <div className="right-72 grid grid-cols-2 control-grid absolute top-16">
                 <div>
                     <h1 className="text-white font-medium text-xl text-center pb-1">Baggage</h1>
                     <Button

@@ -504,7 +504,7 @@ const Navigation = () => {
     return (
         <div className="w-full h-full">
             <div className="flex">
-                <h1 className="text-3xl pt-6 text-white mb-6">Navigation & Charts</h1>
+                <h1 className="text-3xl mt-6 text-white mb-6">Navigation & Charts</h1>
             </div>
             {enableNavigraph
                 ? (

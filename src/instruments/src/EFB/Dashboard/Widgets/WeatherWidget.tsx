@@ -166,7 +166,7 @@ const WeatherWidget = (props: WeatherWidgetProps) => {
     };
 
     function getMetar(icao:any, source: any) {
-        if (icao.length !== 4) {
+        if (icao.length !== 4 || icao === '----') {
             return new Promise(() => {
                 setMetar(MetarParserTypeProp);
             });

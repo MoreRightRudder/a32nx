@@ -191,7 +191,7 @@ const NavigraphChartSelector = (props: NavigraphChartSelectorProps) => {
                 ? (
                     <>
                         {organizedCharts.map((item) => (
-                            <div className="flex flex-col text-lg rounded-lg bg-navy-light mr-4 pb-2" key={item.name}>
+                            <div className="flex flex-col text-lg rounded-lg bg-navy-light mr-4 pb-2 divide-y divide-gray-700" key={item.name}>
                                 <span className="p-1 bg-gray-700 text-center rounded-t-lg">{item.name}</span>
                                 {item.charts.map((chart) => (
                                     <div
